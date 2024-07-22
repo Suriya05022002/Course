@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            height: 50px;
+            width: 100%;
+            background-color: rgba(7, 44, 7, 0.932);
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            padding: 5px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .sub_container {
+            display: flex;
+            flex-direction: row;
+            min-height: calc(100vh - 50px); /* Subtract header height */
+            margin-top: 50px; /* Offset the fixed header height */
+        }
+        .part_1 {
+            width: 350px;
+            background-color: #f0f0f0; /* Light grey background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-sizing: border-box;
+            position: fixed; /* Make sidebar fixed */
+            top: 50px; /* Align below the header */
+            height: calc(100vh - 50px); /* Full height minus header */
+            overflow-y: auto; /* Scrollable if content overflows */
+            border-right: 1px solid #ddd; /* Add a border to the right */
+            z-index: 1000; /* Ensure it stays above content */
+        }
+        .part_1 img {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .list {
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .list ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-item {
+            margin: 10px 0;
+        }
+        .list-item a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .list-item a:hover {
+            background-color: rgba(7, 44, 7, 0.932);
+            color: white;
+            border-radius: 2px;
+        }
+        .list-item i {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+        .list-item p {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .main_content {
+            margin-left: 370px; /* Adjust to the width of the sidebar + some space */
+            padding: 20px;
+            flex: 1;
+        }
+        .course-container {
+            background-color: #ffffff; /* White background */
+            border: 1px solid #ddd; /* Light grey border */
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex; /* Use flexbox for layout */
+            flex-direction: row; /* Arrange image and content side by side */
+            align-items: center; /* Center items vertically */
+        }
+        .course-header {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .course-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #2c3e50; /* Highlighted color */
+            font-weight: bold; /* Highlight course names */
+        }
+        .course-content {
+            display: flex;
+            flex-direction: row; /* Arrange image and details side by side */
+            align-items: center;
+        }
+        .course-image {
+            max-width: 200px;
+            margin-right: 20px;
+        }
+        .course-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .course-details {
+            text-align: left; /* Align text to the left */
+            flex: 1;
+        }
+        .course-details p {
+            margin: 5px 0;
+            color: #555;
+            text-align: justify; /* Justify paragraph text */
+        }
+        .course-details p.red {
+            color: red;
+        }
+        .course-details .btn-container {
+            margin-top: 20px;
+        }
+        .course-details .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .course-details .btn.enroll {
+            background-color: #e74c3c; /* Red */
+        }
+        .course-details .btn.watch {
+            background-color: #3498db; /* Blue */
+        }
+        .course-details .btn:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1024px) {
+            .part_1 {
+                width: 250px;
+            }
+            .main_content {
+                margin-left: 270px; /* Adjust for the smaller sidebar */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sub_container {
+                flex-direction: column; /* Stack sidebar and content vertically */
+            }
+            .part_1 {
+                width: 100%;
+                position: relative; /* Reset to default for smaller screens */
+                height: auto;
+                align-items: flex-start;
+                padding: 10px;
+                top: 0; /* Reset top for smaller screens */
+                border-right: none; /* Remove border for smaller screens */
+            }
+            .main_content {
+                margin-left: 0;
+                padding: 10px;
+            }
+            .course-container {
+                flex-direction: column; /* Stack image and details vertically */
+                align-items: center;
+            }
+            .course-image {
+                max-width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main_content {
+                padding: 20px;
+            }
+            .form-group input[type="email"],
+            .form-group input[type="password"] {
+                padding: 8px;
+            }
+            button[type="submit"] {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">GOWTHAMRAJ NETWORK</div>
+    <div class="sub_container">
+        <div class="part_1">
+            <div>
+                <img src="pic-3.png" alt="learner-img">
+                <hr id="hr">
+            </div>
+            <div class="list">
+                <ul>
+                    <li class="list-item"><a href="index.html"><i class="fa-solid fa-user"></i><p>Profile</p></a></li>
+                    <li class="list-item"><a href="Mycourse.html"><i class="fa-solid fa-book-atlas"></i><p>My Courses</p></a></li>
+                    <li class="list-item"><a href="Feedback.html"><i class="fa-solid fa-comment"></i><p>Feedback</p></a></li>
+                    <li class="list-item"><a href="ChangePassword.html"><i class="fa-solid fa-key"></i><p>Change Password</p></a></li>
+                    <li class="list-item"><a href="Logout.html"><i class="fa-solid fa-right-from-bracket"></i><p>Logout</p></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="course-container">
+                <div class="course-image">
+                    <img src="thumbnail.webp" alt="Course Image">
+                </div>
+                <div class="course-details">
+                    <div class="course-header">
+                        <h2>Agile Software Development</h2>
+                    </div>
+                    <p>Multilingual options (English and Tamil)</p>
+                    <p>Reserve a Seat only with the very less Platform fee. After completing the courses learners are able to understand the agile methodology completely.</p>
+                    <p>SUBSCRIPTION: 1 Month</p>
+                    <p>Instructor: GOWTHAM RAJ</p>
+                    <p class="red">You are Enrolled for all 1000+ Courses !!!!</p>
+                    <p class="red">Courses Starting from JUNE 4, 2024</p>
+                    <p class="red">Validity: June 19, 2025</p>
+                    <div class="btn-container">
+                        <a href="#" class="btn enroll">ENROLL NOW</a>
+                        <a href="#" class="btn watch">WATCH COURSE</a>
+                    </div>
+                </div>
+            </div>
+            <div class="course-container">
+                <div class="course-image">
+                    <img src="thumbnail.webp" alt="Course Image">
+                </div>
+                <div class="course-details">
+                    <div class="course-header">
+                        <h2>Data Science with Python</h2>
+                    </div>
+                    <p>Learn data science with Python from scratch.</p>
+                    <p>In-depth coverage of Python libraries like Pandas, NumPy, and Matplotlib.</p>
+                    <p>SUBSCRIPTION: 3 Months</p>
+                    <p>Instructor: GOWTHAM RAJ</p>
+                    <p class="red">You are Enrolled for all 1000+ Courses !!!!</p>
+                    <p class="red">Courses Starting from JUNE 4, 2024</p>
+                    <p class="red">Validity: September 19, 2024</p>
+                    <div class="btn-container">
+                        <a href="#" class="btn enroll">ENROLL NOW</a>
+                        <a href="#" class="btn watch">WATCH COURSE</a>
+                    </div>
+                </div>
+            </div>
+            <div class="course-container">
+                <div class="course-image">
+                    <img src="thumbnail.webp" alt="Course Image">
+                </div>
+                <div class="course-details">
+                    <div class="course-header">
+                        <h2>Web Development Bootcamp</h2>
+                    </div>
+                    <p>Become a full-stack web developer with this comprehensive bootcamp.</p>
+                    <p>Hands-on projects and real-world applications.</p>
+                    <p>SUBSCRIPTION: 6 Months</p>
+                    <p>Instructor: GOWTHAM RAJ</p>
+                    <p class="red">You are Enrolled for all 1000+ Courses !!!!</p>
+                    <p class="red">Courses Starting from JUNE 4, 2024</p>
+                    <p class="red">Validity: December 19, 2024</p>
+                    <div class="btn-container">
+                        <a href="#" class="btn enroll">ENROLL NOW</a>
+                        <a href="#" class="btn watch">WATCH COURSE</a>
+                    </div>
+                </div>
+            </div>
+            <div class="course-container">
+                <div class="course-image">
+                    <img src="thumbnail.webp" alt="Course Image">
+                </div>
+                <div class="course-details">
+                    <div class="course-header">
+                        <h2>Machine Learning with R</h2>
+                    </div>
+                    <p>Master machine learning concepts using R programming language.</p>
+                    <p>Includes projects and hands-on exercises.</p>
+                    <p>SUBSCRIPTION: 4 Months</p>
+                    <p>Instructor: GOWTHAM RAJ</p>
+                    <p class="red">You are Enrolled for all 1000+ Courses !!!!</p>
+                    <p class="red">Courses Starting from JUNE 4, 2024</p>
+                    <p class="red">Validity: October 19, 2024</p>
+                    <div class="btn-container">
+                        <a href="#" class="btn enroll">ENROLL NOW</a>
+                        <a href="#" class="btn watch">WATCH COURSE</a>
+                    </div>
+                </div>
+            </div>
+            <div class="course-container">
+                <div class="course-image">
+                    <img src="thumbnail.webp" alt="Course Image">
+                </div>
+                <div class="course-details">
+                    <div class="course-header">
+                        <h2>Cloud Computing Essentials</h2>
+                    </div>
+                    <p>Learn the fundamentals of cloud computing.</p>
+                    <p>Introduction to AWS, Azure, and Google Cloud Platform.</p>
+                    <p>SUBSCRIPTION: 2 Months</p>
+                    <p>Instructor: GOWTHAM RAJ</p>
+                    <p class="red">You are Enrolled for all 1000+ Courses !!!!</p>
+                    <p class="red">Courses Starting from JUNE 4, 2024</p>
+                    <p class="red">Validity: August 19, 2024</p>
+                    <div class="btn-container">
+                        <a href="#" class="btn enroll">ENROLL NOW</a>
+                        <a href="#" class="btn watch">WATCH COURSE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
